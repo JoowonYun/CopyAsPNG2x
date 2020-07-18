@@ -1,0 +1,7 @@
+{
+  "name": "pngcopy",
+  "id": "864117638831001706",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html"
+}
