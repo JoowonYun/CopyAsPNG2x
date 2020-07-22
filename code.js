@@ -17,7 +17,7 @@ let exportSetting = {
 figma.currentPage.selection[0].exportAsync(exportSetting).then((value) => {
     try {
         // figma.ui.postMessage({type: 'send-img', data: Buffer.from(value).toString('base64'), bData: value})  
-        figma.ui.postMessage({ type: 'send-img', bData: value }, { origin: '*' });
+        figma.ui.postMessage({ type: 'send-img', bData: value });
     }
     catch (error) {
         console.log(error);

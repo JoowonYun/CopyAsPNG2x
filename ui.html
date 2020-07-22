@@ -1,28 +1,14 @@
+<form name="frmPopup">
+  <input type="hidden" name="arg1">
+</form>
+  
 <script>
   onmessage = async (e) => {
     if(e.data.pluginMessage.type == 'send-img') {
-        const imgdata = "data:image/png;base64," + btoa(new Uint8Array(e.data.pluginMessage.bData).reduce(function (data, byte) {
+      const imgdata = btoa(new Uint8Array(e.data.pluginMessage.bData).reduce(function (data, byte) {
         return data + String.fromCharCode(byte);
-      }, ''))
-
-      console.log(e.data.pluginMessage.data)
-      let imgEle = document.createElement('img');
-      imgEle.src = imgdata
-      imgEle.alt = "T.T"
-      imgEle.id = "abc"
-
-      document.body.appendChild(imgEle)
-      
-      let range = document.createRange()
-      range.setStartBefore(imgEle)
-      range.setEndAfter(imgEle)
-      range.selectNode(imgEle)
-      
-      let select = window.getSelection()
-      select.addRange(range)
-      
-      const res = document.execCommand("Copy")
-      console.log(res)
+      }, '')).replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')
+      window.open("https://joowonyun.github.io/base64decoder?data=" + imgdata)
     }
   }
 </script>
