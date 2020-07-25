@@ -1,14 +1,38 @@
-<form name="frmPopup">
-  <input type="hidden" name="arg1">
-</form>
-  
+
 <script>
   onmessage = async (e) => {
     if(e.data.pluginMessage.type == 'send-img') {
       const imgdata = btoa(new Uint8Array(e.data.pluginMessage.bData).reduce(function (data, byte) {
-        return data + String.fromCharCode(byte);
-      }, '')).replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')
-      window.open("https://joowonyun.github.io/base64decoder?data=" + imgdata)
+          return data + String.fromCharCode(byte);
+      }, ''));
+
+      const hash = Math.floor(Math.random() * 10000)
+      const url = "https://localhost:8000/image";
+
+      const form = document.createElement('form');
+      form.setAttribute('method', 'post');
+      form.setAttribute('action', url);
+      document.charset = "utf-8";
+
+      const imageField = document.createElement('input');
+      imageField.setAttribute('type', 'hidden');
+      imageField.setAttribute('name', "image");
+      imageField.setAttribute('value', imgdata);
+      form.appendChild(imageField);
+
+      const hashField = document.createElement('input');
+      hashField.setAttribute('type', 'hidden');
+      hashField.setAttribute('name', "hash");
+      hashField.setAttribute('value', hash);
+      form.appendChild(hashField);
+
+      document.body.appendChild(form);
+      
+      form.submit();
+
+      window.open("https://localhost:8000/view?hash=" + hash,"","");
+
+      window.parent.postMessage({pluginMessage: "close"}, "*")
     }
   }
 </script>

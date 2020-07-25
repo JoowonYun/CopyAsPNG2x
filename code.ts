@@ -6,7 +6,7 @@
 // full browser environment (see documentation).
 
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__);
+figma.showUI(__html__, { visible: false });
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
@@ -30,12 +30,15 @@ let exportSetting: ExportSettingsImage = {
 
 figma.currentPage.selection[0].exportAsync(exportSetting).then((value) => {
   try {
-    // figma.ui.postMessage({type: 'send-img', data: Buffer.from(value).toString('base64'), bData: value})  
-    figma.ui.postMessage({type: 'send-img', bData: value})
+    figma.ui.postMessage({type: 'send-img', bData: value}, {origin: "*"})
 
   } catch (error) {
     console.log(error)    
   }
-
-  // figma.closePlugin()
 })
+
+figma.ui.onmessage = async (msg) => {
+  if(msg === "close") {
+    figma.closePlugin()
+  }
+}
