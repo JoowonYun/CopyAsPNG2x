@@ -11,7 +11,7 @@ const MAX_SIZE = 1440;
 const imageWidth = figma.currentPage.selection[0].width;
 const imageHeight = figma.currentPage.selection[0].height;
 if (imageWidth > MAX_SIZE || imageHeight > MAX_SIZE) {
-    figma.notify("Image must be less than 1440 x 1440");
+    figma.notify("The image must be less than 1440*1440 pixels.");
     figma.closePlugin();
 }
 // This plugin will open a modal to prompt the user to enter a number, and
